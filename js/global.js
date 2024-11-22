@@ -196,11 +196,15 @@ document.querySelectorAll('.ApplicationCard').forEach(card => {
     this.style.transition = 'width 0.3s ease';
   });
 
+
+
 });
 
 
 
 document.addEventListener("DOMContentLoaded", function() {
+
+
   // Bar Chart（條形圖）
   const barChartCanvas = document.getElementById('barChart');
   if (barChartCanvas) {
