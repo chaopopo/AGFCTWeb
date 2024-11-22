@@ -260,15 +260,16 @@
                     <div class="Mid">					
                         <!-- \\ Begin Left Side \\ -->
                         <div class="Leftside">
-                            <form action="#">
+                            <form action="contact.php" method="POST">
                                 <fieldset>
-                                    <p><input type="text" value="" placeholder="NAME" class="field"></p>
-                                    <p><input type="email" value="" placeholder="EMAIL" class="field"></p>
-                                    <p><input type="text" value="" placeholder="TITLE" class="field"></p>
-                                    <p><textarea cols="2"  rows="2" placeholder="MESSAGE"></textarea></p>
-                                    <p><input type="submit" value="send" class="button"></p>
+                                    <p><input type="text" name="name" placeholder="NAME" class="field" required></p>
+                                    <p><input type="email" name="email" placeholder="EMAIL" class="field" required></p>
+                                    <p><input type="text" name="title" placeholder="TITLE" class="field"></p>
+                                    <p><textarea name="message" placeholder="MESSAGE" required></textarea></p>
+                                    <p><input type="submit" value="SEND" class="button"></p>
                                 </fieldset>
                             </form>
+                            
                         </div>
                         <!-- // End Left Side // -->
                         <!-- \\ Begin Right Side \\ -->

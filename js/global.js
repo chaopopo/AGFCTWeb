@@ -369,6 +369,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.querySelector("form").addEventListener("submit", function (e) {
+  const name = document.querySelector("[name='name']").value;
+  const email = document.querySelector("[name='email']").value;
+
+  if (!name || !email) {
+      e.preventDefault();
+      alert("請確保所有必要欄位都已填寫！");
+  }
+});
 
 
 
