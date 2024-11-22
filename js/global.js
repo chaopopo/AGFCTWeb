@@ -201,6 +201,7 @@ document.querySelectorAll('.ApplicationCard').forEach(card => {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+  
   // Bar Chart（條形圖）
   const barChartCanvas = document.getElementById('barChart');
   if (barChartCanvas) {
