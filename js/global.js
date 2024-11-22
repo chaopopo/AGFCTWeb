@@ -202,166 +202,170 @@ document.querySelectorAll('.ApplicationCard').forEach(card => {
 
 document.addEventListener("DOMContentLoaded", function() {
   // Bar Chart（條形圖）
-  const barCtx = document.getElementById('barChart').getContext('2d');
-  new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['電堆技術', '系統整合', '系統組件', '測試裝置', '製程', '燃料組件'],
-        datasets: [{
-            label: '專利數量',
-            data: [40, 53, 22, 11, 9, 51],
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(153, 102, 255, 0.6)',
-                'rgba(255, 159, 64, 0.6)',
-                'rgba(201, 203, 207, 0.6)'
-            ],
-            borderColor: 'rgba(0, 0, 0, 0.1)',
-            borderWidth: 1,
-            hoverBackgroundColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(201, 203, 207, 1)'
-            ]
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-            x: {
-                ticks: {
-                    color: '#333',
-                    font: { size: 14 },
-                }
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                    color: 'rgba(200, 200, 200, 0.2)' 
-                },
-                ticks: {
-                    color: '#333',
-                    font: { size: 14 },
-                    stepSize: 10, 
-                }
-            }
+  const barChartCanvas = document.getElementById('barChart');
+  if (barChartCanvas) {
+    const barCtx = barChartCanvas.getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: ['電堆技術', '系統整合', '系統組件', '測試裝置', '製程', '燃料組件'],
+          datasets: [{
+              label: '專利數量',
+              data: [40, 53, 22, 11, 9, 51],
+              backgroundColor: [
+                  'rgba(75, 192, 192, 0.6)',
+                  'rgba(54, 162, 235, 0.6)',
+                  'rgba(255, 206, 86, 0.6)',
+                  'rgba(153, 102, 255, 0.6)',
+                  'rgba(255, 159, 64, 0.6)',
+                  'rgba(201, 203, 207, 0.6)'
+              ],
+              borderColor: 'rgba(0, 0, 0, 0.1)',
+              borderWidth: 1,
+              hoverBackgroundColor: [
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(201, 203, 207, 1)'
+              ]
+          }]
         },
-        plugins: {
-            datalabels: {
-                anchor: 'end',
-                align: 'top',
-                color: '#333',
-                font: {
-                    size: 14,
-                    weight: 'bold'
-                }
-            }
-        },
-
-    }
-    
-  });
-
-  // Pie Chart（圓餅圖）
-  const ctx = document.getElementById('pieChart').getContext('2d');
-  const data = {
-      labels: ['Taiwan', 'China', 'US', 'Japan', 'EP', 'Canada', 'Germany'],
-      datasets: [{
-          data: [77, 39, 30, 17, 17, 5, 1],
-          backgroundColor: [
-              'rgba(255, 99, 132, 0.8)',  // Taiwan
-              'rgba(54, 162, 235, 0.8)',  // China
-              'rgba(255, 206, 86, 0.8)',  // US
-              'rgba(75, 192, 192, 0.8)',  // Japan
-              'rgba(153, 102, 255, 0.8)', // EP
-              'rgba(255, 159, 64, 0.8)',  // Canada
-              'rgba(201, 203, 207, 0.8)'  // Germany
-          ],
-          borderWidth: 2,
-          hoverOffset: 50
-      }]
-      
-  };
-
-  const drawLine = (chart) => {
-      const meta = chart.getDatasetMeta(0);
-      const ctx = chart.ctx;
-      const dataset = chart.data.datasets[0];
-      const total = dataset.data.reduce((sum, val) => sum + val, 0);
-
-      meta.data.forEach((arc, index) => {
-          const value = dataset.data[index];
-          const percentage = ((value / total) * 100).toFixed(1) + '%';
-          const label = chart.data.labels[index];
-          const angle = (arc.startAngle + arc.endAngle) / 2;
-          const outerRadius = arc.outerRadius + 10; 
-          const xStart = Math.cos(angle) * outerRadius + arc.x;
-          const yStart = Math.sin(angle) * outerRadius + arc.y;
-
-          if ((value / total) * 100 < 5) {
-              // 外部標記
-              const xEnd = Math.cos(angle) * (outerRadius + 30) + arc.x;
-              const yEnd = Math.sin(angle) * (outerRadius + 30) + arc.y;
-              const textX = xEnd + (xEnd > arc.x ? 10 : -10);
-              const textAlign = xEnd > arc.x ? 'left' : 'right';
-
-              // 繪製線條
-              ctx.beginPath();
-              ctx.moveTo(xStart, yStart);
-              ctx.lineTo(xEnd, yEnd);
-              ctx.strokeStyle = dataset.backgroundColor[index];
-              ctx.stroke();
-
-              // 繪製文字（外側）
-              ctx.font = '12px Arial';
-              ctx.fillStyle = dataset.backgroundColor[index];
-              ctx.textAlign = textAlign;
-              ctx.fillText(`${label}: ${percentage}`, textX, yEnd);
-          } else {
-              // 內部標記
-              const xMid = Math.cos(angle) * (arc.innerRadius + arc.outerRadius) / 2 + arc.x;
-              const yMid = Math.sin(angle) * (arc.innerRadius + arc.outerRadius) / 2 + arc.y;
-
-              ctx.font = '12px Arial';
-              ctx.fillStyle = '#FFFFFF';
-              ctx.textAlign = 'center';
-              ctx.fillText(`${label}: ${percentage}`, xMid, yMid);
-          }
-      });
-  };
-
-  new Chart(ctx, {
-      type: 'pie',
-      data: data,
-      options: {
-          plugins: {
-              legend: {
-                  position: 'right',
-                  labels: {
-                      boxWidth: 50,
-                      padding: 15,
-                      color: '#333'
+        options: {
+          responsive: true,
+          scales: {
+              x: {
+                  ticks: {
+                      color: '#333',
+                      font: { size: 14 },
+                  }
+              },
+              y: {
+                  beginAtZero: true,
+                  grid: {
+                      color: 'rgba(200, 200, 200, 0.2)' 
+                  },
+                  ticks: {
+                      color: '#333',
+                      font: { size: 14 },
+                      stepSize: 10, 
                   }
               }
           },
-          responsive: true,
-          layout: {
-            padding: 20
+          plugins: {
+              datalabels: {
+                  anchor: 'end',
+                  align: 'top',
+                  color: '#333',
+                  font: {
+                      size: 14,
+                      weight: 'bold'
+                  }
+              }
           },
-      },
-      plugins: [{
-          id: 'externalLabels',
-          afterDraw: (chart) => {
-              drawLine(chart);
-          }
-      }]
-  });
 
+      }
+      
+    });
+  } 
+    // Pie Chart（圓餅圖）
+    const pieChartCanvas = document.getElementById('pieChart');
+    if (pieChartCanvas) {
+      const pieCtx = pieChartCanvas.getContext('2d');
+      const data = {
+          labels: ['Taiwan', 'China', 'US', 'Japan', 'EP', 'Canada', 'Germany'],
+          datasets: [{
+              data: [77, 39, 30, 17, 17, 5, 1],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',  // Taiwan
+                  'rgba(54, 162, 235, 0.8)',  // China
+                  'rgba(255, 206, 86, 0.8)',  // US
+                  'rgba(75, 192, 192, 0.8)',  // Japan
+                  'rgba(153, 102, 255, 0.8)', // EP
+                  'rgba(255, 159, 64, 0.8)',  // Canada
+                  'rgba(201, 203, 207, 0.8)'  // Germany
+              ],
+              borderWidth: 2,
+              hoverOffset: 50
+          }]
+          
+      };
+
+      const drawLine = (chart) => {
+          const meta = chart.getDatasetMeta(0);
+          const ctx = chart.ctx;
+          const dataset = chart.data.datasets[0];
+          const total = dataset.data.reduce((sum, val) => sum + val, 0);
+
+          meta.data.forEach((arc, index) => {
+              const value = dataset.data[index];
+              const percentage = ((value / total) * 100).toFixed(1) + '%';
+              const label = chart.data.labels[index];
+              const angle = (arc.startAngle + arc.endAngle) / 2;
+              const outerRadius = arc.outerRadius + 10; 
+              const xStart = Math.cos(angle) * outerRadius + arc.x;
+              const yStart = Math.sin(angle) * outerRadius + arc.y;
+
+              if ((value / total) * 100 < 5) {
+                  // 外部標記
+                  const xEnd = Math.cos(angle) * (outerRadius + 30) + arc.x;
+                  const yEnd = Math.sin(angle) * (outerRadius + 30) + arc.y;
+                  const textX = xEnd + (xEnd > arc.x ? 10 : -10);
+                  const textAlign = xEnd > arc.x ? 'left' : 'right';
+
+                  // 繪製線條
+                  ctx.beginPath();
+                  ctx.moveTo(xStart, yStart);
+                  ctx.lineTo(xEnd, yEnd);
+                  ctx.strokeStyle = dataset.backgroundColor[index];
+                  ctx.stroke();
+
+                  // 繪製文字（外側）
+                  ctx.font = '12px Arial';
+                  ctx.fillStyle = dataset.backgroundColor[index];
+                  ctx.textAlign = textAlign;
+                  ctx.fillText(`${label}: ${percentage}`, textX, yEnd);
+              } else {
+                  // 內部標記
+                  const xMid = Math.cos(angle) * (arc.innerRadius + arc.outerRadius) / 2 + arc.x;
+                  const yMid = Math.sin(angle) * (arc.innerRadius + arc.outerRadius) / 2 + arc.y;
+
+                  ctx.font = '12px Arial';
+                  ctx.fillStyle = '#FFFFFF';
+                  ctx.textAlign = 'center';
+                  ctx.fillText(`${label}: ${percentage}`, xMid, yMid);
+              }
+          });
+      };
+
+      new Chart(ctx, {
+          type: 'pie',
+          data: data,
+          options: {
+              plugins: {
+                  legend: {
+                      position: 'right',
+                      labels: {
+                          boxWidth: 50,
+                          padding: 15,
+                          color: '#333'
+                      }
+                  }
+              },
+              responsive: true,
+              layout: {
+                padding: 20
+              },
+          },
+          plugins: [{
+              id: 'externalLabels',
+              afterDraw: (chart) => {
+                  drawLine(chart);
+              }
+          }]
+      });
+    }
 });
 
 
