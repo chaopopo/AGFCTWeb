@@ -185,23 +185,23 @@ document.querySelectorAll('.ApplicationCard').forEach(card => {
     document.getElementById('ModalOverlay').classList.remove('ShowModal');
   });
 
-  // 聚焦時增加搜尋框寬度
-  document.querySelector('.search-input').addEventListener('focus', function() {
-    this.style.width = '250px';
-    this.style.transition = 'width 0.3s ease';
-  });
 
-  document.querySelector('.search-input').addEventListener('blur', function() {
-    this.style.width = '200px';
-    this.style.transition = 'width 0.3s ease';
-  });
 
 });
 
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  
+  // 聚焦時增加搜尋框寬度
+  document.querySelector('.search-input').addEventListener('focus', function() {
+    this.style.width = '150px';
+    this.style.transition = 'width 0.3s ease';
+  });
+
+  document.querySelector('.search-input').addEventListener('blur', function() {
+    this.style.width = '100px';
+    this.style.transition = 'width 0.3s ease';
+  });
   // Bar Chart（條形圖）
   const barChartCanvas = document.getElementById('barChart');
   if (barChartCanvas) {
