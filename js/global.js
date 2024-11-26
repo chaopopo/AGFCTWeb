@@ -369,13 +369,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-document.querySelector("form").addEventListener("submit", function (e) {
+// 聯絡表單驗證
+document.querySelector("#contactForm").addEventListener("submit", function (e) {
   const name = document.querySelector("[name='name']").value;
   const email = document.querySelector("[name='email']").value;
 
   if (!name || !email) {
-      e.preventDefault();
-      alert("請確保所有必要欄位都已填寫！");
+    e.preventDefault();
+    alert("請確保所有必要欄位都已填寫！");
+  }
+});
+
+// 搜尋表單提交
+document.querySelector("#searchForm").addEventListener("submit", function (e) {
+  const searchInput = document.querySelector(".search-input").value;
+
+  if (!searchInput) {
+    e.preventDefault();
+    alert("請輸入搜尋內容！");
   }
 });
 
